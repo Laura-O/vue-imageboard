@@ -1,10 +1,38 @@
 <!doctype html>
 <html>
+
 <head>
     <title></title>
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
+
 <body>
+    <header>
+        <h1>Imageboard</h1>
+    </header>
+    <nav></nav>
+    <div id="search">
+        <form action="" method="post">
+            <input type="text" v-model="title" name="Title" id="">
+            <input type="text" v-model="description" name="Description" id="">
+            <input type="text" v-model="user" name="Username" id="">
+            <input type="file" v-model="file" name="File" id="">
+            <button v-on:click="upload" value="Upload">
+        </form>
+    </div>
+    <div id="main">
+        <div class="image" v-for="image in images">
+            <div class="image-file">
+                <img v-bind:src="domain + image.image" alt="" srcset="">
+            </div>
+            <div class="title">{{image.title}}</div>
+        </div>
+    </div>
+
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
+    <script src="/js/script.js"></script>
 </body>
+<footer></footer>
+
 </html>
