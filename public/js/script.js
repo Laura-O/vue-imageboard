@@ -32,4 +32,9 @@
             },
         },
     });
+
+    Vue.component('single-image', {
+        props: ['path', 'title'],
+        template: '#single-image-template',
+    });
 })();

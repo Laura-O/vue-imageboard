@@ -23,14 +23,19 @@
             </form>
         </div>
 
-
         <div class="image" v-for="image in images">
-            <div class="image-file">
-                <img v-bind:src="image.image" alt="" srcset="">
-            </div>
-            <div class="title">{{image.title}}</div>
+            <single-image :path=image.image :title=image.title></single-image>
         </div>
     </div>
+
+    <script id="single-image-template" type="x-template">
+        <div>            
+            <div class="image-file">
+                <img v-bind:src="path" />
+            </div>
+            <div>{{ title }}</div>
+        </div>
+    </script>
 
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
