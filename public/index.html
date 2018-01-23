@@ -25,17 +25,45 @@
 
         <div class="image" v-for="image in images">
             <single-image :path=image.image :title=image.title></single-image>
+            <button id="show-modal" @click="showModal = true; selectImage(image)">Show Modal</button>
         </div>
+
+        <modal v-if="showModal" :image="selectedImage" @close="showModal = false">
+            <h3 slot="header">custom header</h3>
+        </modal>
     </div>
 
     <script id="single-image-template" type="x-template">
-        <div>            
+        <div>
             <div class="image-file">
                 <img v-bind:src="path" />
             </div>
             <div>{{ title }}</div>
         </div>
     </script>
+
+    <script type="text/x-template" id="modal-template">
+        <transition name="modal">
+          <div class="modal-mask">
+            <div class="modal-wrapper">
+              <div class="modal-container">      
+      
+                <div class="modal-body">
+                        <img v-bind:src="image.image" />
+                </div>
+      
+                <div class="modal-footer">
+                  
+                    <button class="modal-default-button" @click="$emit('close')">
+                      OK
+                    </button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </script>
 
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>

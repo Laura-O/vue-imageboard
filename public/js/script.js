@@ -1,4 +1,14 @@
 (function() {
+    Vue.component('modal', {
+        props: ['image'],
+        template: '#modal-template',
+    });
+
+    Vue.component('single-image', {
+        props: ['path', 'title'],
+        template: '#single-image-template',
+    });
+
     var app = new Vue({
         el: '#main',
         data: {
@@ -7,6 +17,8 @@
                 title: '',
                 description: '',
             },
+            showModal: false,
+            selectedImage: undefined,
         },
         mounted: function() {
             axios.get('/db').then(function(resp) {
@@ -30,11 +42,14 @@
                     console.log(response);
                 });
             },
+            selectImage(image) {
+                this.selectedImage = image;
+                this.showModal = true;
+            },
+            deselect() {
+                this.selectedImage = undefined;
+                this.showModal = false;
+            },
         },
-    });
-
-    Vue.component('single-image', {
-        props: ['path', 'title'],
-        template: '#single-image-template',
     });
 })();
