@@ -7,6 +7,9 @@ const multer = require('multer');
 const uidSafe = require('uid-safe');
 const path = require('path');
 const fs = require('fs');
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const knox = require('knox');
 let secrets;
@@ -53,6 +56,36 @@ app.get('/db', (req, res) => {
         })
         .catch(err => {
             console.error('query error', err.message, err.stack);
+        });
+});
+
+app.get('/comments/:id', (req, res) => {
+    const query = 'SELECT * FROM comments WHERE image_id = $1';
+
+    db
+        .query(query, [req.params.id])
+        .then(results => {
+            res.send(results.rows);
+        })
+        .catch(err => {
+            console.error('query error', err.message, err.stack);
+        });
+});
+
+app.post('/comment', function(req, res) {
+    console.log(req.body);
+
+    res.send('ok');
+    const query = 'INSERT INTO comments (comment, username, image_id) VALUES ($1, $2, $3)';
+
+    db
+        .query(query, [req.body.comment, req.body.user, req.body.id])
+        .then(() => {
+            console.log('success');
+        })
+        .catch(err => {
+            console.log(err);
+            res.json({ success: false });
         });
 });
 
