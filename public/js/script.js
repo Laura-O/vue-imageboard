@@ -8,6 +8,7 @@
         props: ['image'],
         template: '#modal-template',
         mounted: function() {
+            console.log('image when mounted: ', this.image);
             axios.get('/comments/' + this.image.id).then(resp => {
                 this.comments = resp.data;
             });
@@ -65,9 +66,13 @@
             selectedImage: undefined,
         },
         mounted: function() {
+            if (window.location.hash) {
+                // let currentImage = this.getImage(window.location.hash.substring(1));
+                // this.selectImage(currentImage);
+                this.getImage(window.location.hash.substring(1));
+            }
             axios.get('/db').then(function(resp) {
                 app.images = resp.data;
-                console.log(app.images);
             });
         },
         methods: {
@@ -98,22 +103,14 @@
                 this.selectedImage = image;
                 this.showModal = true;
             },
+            getImage(id) {
+                axios.get('/image/' + id).then(resp => {
+                    this.selectImage(resp.data[0]);
+                });
+            },
             deselect() {
                 this.selectedImage = undefined;
                 this.showModal = false;
-            },
-            saveComment(comment, commentUsername, imageId) {
-                axios
-                    .post('/comment', { comment: comment, user: commentUsername, id: imageId })
-                    .then(response => {
-                        if (response.data.success == true) {
-                            // comments.unshift({
-                            //     description: response.data.comment,
-                            //     username: response.data.username,
-                            //     id: response.data.imageId,
-                            // });
-                        }
-                    });
             },
         },
     });

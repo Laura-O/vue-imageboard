@@ -72,6 +72,20 @@ app.get('/comments/:id', (req, res) => {
         });
 });
 
+app.get('/image/:id', (req, res) => {
+    const query = 'SELECT * FROM images WHERE id = $1';
+
+    db
+        .query(query, [req.params.id])
+        .then(results => {
+            results.rows[0].image = config.s3Url.concat(results.rows[0].image);
+            res.json(results.rows);
+        })
+        .catch(err => {
+            console.error('query error', err.message, err.stack);
+        });
+});
+
 app.post('/comment', function(req, res) {
     const query = 'INSERT INTO comments (comment, username, image_id) VALUES ($1, $2, $3)';
 
