@@ -4,6 +4,7 @@
 <head>
     <title></title>
     <link rel="stylesheet" href="styles/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Rokkitt" rel="stylesheet">
 </head>
 
 <body>
@@ -23,9 +24,12 @@
             </form>
         </div>
 
-        <div class="image" v-for="image in images">
-            <single-image :path=image.image :title=image.title></single-image>
-            <button id="show-modal" @click="showModal = true; selectImage(image)">Show Modal</button>
+        <div id="gallery-wrap">
+            <div id="gallery">
+                <div class="image" v-for="image in images" @click="showModal = true; selectImage(image)">
+                    <single-image :path=image.image :title=image.title></single-image>
+                </div>
+            </div>
         </div>
 
         <modal v-if="showModal" :image="selectedImage" @close="showModal = false">
@@ -38,7 +42,7 @@
             <div class="image-file">
                 <img v-bind:src="path" />
             </div>
-            <div>{{ title }}</div>
+            <div class="image-title">{{ title }}</div>
         </div>
     </script>
 
@@ -47,11 +51,20 @@
           <div class="modal-mask">
             <div class="modal-wrapper">
               <div class="modal-container">      
-      
+                
                 <div class="modal-body">
                         <img v-bind:src="image.image" />
                 </div>
       
+                <div class="modal-title">
+                    {{ image.title }}
+                </div>
+
+                <div class="modal-description">
+                    {{ image.description }}
+                </div>
+
+
                 <div class="modal-footer">
                   
                     <button class="modal-default-button" @click="$emit('close')">
