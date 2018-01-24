@@ -146,3 +146,16 @@ h1 {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
 }
+
+.comment-wrapper {
+    border: 1px solid black;
+    text-align: left;
+}
+
+.comment {
+    font-size: 16px;
+}
+
+.comment-author {
+    font-size: 12px;
+}

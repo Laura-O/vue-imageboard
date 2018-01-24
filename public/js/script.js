@@ -1,11 +1,15 @@
 (function() {
     Vue.component('modal', {
-        props: ['image', 'comments'],
+        data: function() {
+            return {
+                comments: '',
+            };
+        },
+        props: ['image'],
         template: '#modal-template',
         mounted: function() {
             axios.get('/comments/' + this.image.id).then(resp => {
                 this.comments = resp.data;
-                console.log('comments after get', comments);
             });
         },
     });
@@ -15,8 +19,9 @@
         template: '#single-image-template',
     });
 
-    Vue.component('comments', {
-        template: '#comments-template',
+    Vue.component('comment', {
+        props: ['name', 'comment'],
+        template: '#comment-template',
     });
 
     Vue.component('comment-form', {
@@ -29,11 +34,21 @@
         template: '#comment-form-template',
         methods: {
             saveComment: function(e) {
-                this.$parent.$parent.saveComment(
-                    this.comment,
-                    this.commentUsername,
-                    this.$parent.image.id,
-                );
+                axios
+                    .post('/comment', {
+                        comment: this.comment,
+                        user: this.commentUsername,
+                        id: this.$parent.image.id,
+                    })
+                    .then(response => {
+                        if (response.data.success == true) {
+                            this.$parent.comments.unshift({
+                                comment: response.data.comment,
+                                username: response.data.username,
+                                id: response.data.imageId,
+                            });
+                        }
+                    });
             },
         },
     });
@@ -52,6 +67,7 @@
         mounted: function() {
             axios.get('/db').then(function(resp) {
                 app.images = resp.data;
+                console.log(app.images);
             });
         },
         methods: {
@@ -68,7 +84,14 @@
                 formData.append('username', this.formStuff.username);
 
                 axios.post('/upload-image', formData).then(response => {
-                    console.log(response);
+                    if (response.data.success == true) {
+                        app.images.unshift({
+                            description: response.data.description,
+                            image: response.data.filename,
+                            title: response.data.title,
+                            username: response.data.username,
+                        });
+                    }
                 });
             },
             selectImage(image) {
@@ -83,7 +106,13 @@
                 axios
                     .post('/comment', { comment: comment, user: commentUsername, id: imageId })
                     .then(response => {
-                        console.log(response);
+                        if (response.data.success == true) {
+                            // comments.unshift({
+                            //     description: response.data.comment,
+                            //     username: response.data.username,
+                            //     id: response.data.imageId,
+                            // });
+                        }
                     });
             },
         },

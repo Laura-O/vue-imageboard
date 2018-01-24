@@ -73,15 +73,17 @@ app.get('/comments/:id', (req, res) => {
 });
 
 app.post('/comment', function(req, res) {
-    console.log(req.body);
-
-    res.send('ok');
     const query = 'INSERT INTO comments (comment, username, image_id) VALUES ($1, $2, $3)';
 
     db
         .query(query, [req.body.comment, req.body.user, req.body.id])
         .then(() => {
-            console.log('success');
+            res.json({
+                success: true,
+                comment: req.body.comment,
+                username: req.body.user,
+                imageId: req.body.id,
+            });
         })
         .catch(err => {
             console.log(err);
@@ -110,7 +112,13 @@ app.post('/upload-image', uploader.single('file'), function(req, res) {
             db
                 .query(query, [req.file.filename, username, title, description])
                 .then(() => {
-                    res.json({ success: wasSuccessful });
+                    res.json({
+                        success: true,
+                        filename: config.s3Url + req.file.filename,
+                        username: username,
+                        title: title,
+                        description: description,
+                    });
                 })
                 .catch(err => {
                     console.log(err);

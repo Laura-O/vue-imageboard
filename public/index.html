@@ -66,8 +66,7 @@
                             </div>
                             
                             <div v-for="comment in comments">
-                                <!-- <comment name=></comment> -->
-                               <p>{{comment}}</p>
+                                <comment :name=comment.username :comment=comment.comment ></comment>                               
                             </div>
                             
                         </div>
@@ -96,8 +95,12 @@
             </div>
     </script>
 
-    <script id="comments-template" type="x-template">
-                    <div>{{comment}}</div>
+    <script id="comment-template" type="x-template">
+            <div class="comment-wrapper">
+                    <div class="comment">{{comment}}</div>
+                    <div class="comment-author">{{name}}</div>
+
+            </div>
     </script>
 
     <script src="/js/vue.js"></script>
