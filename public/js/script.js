@@ -1,12 +1,41 @@
 (function() {
     Vue.component('modal', {
-        props: ['image'],
+        props: ['image', 'comments'],
         template: '#modal-template',
+        mounted: function() {
+            axios.get('/comments/' + this.image.id).then(resp => {
+                this.comments = resp.data;
+                console.log('comments after get', comments);
+            });
+        },
     });
 
     Vue.component('single-image', {
         props: ['path', 'title'],
         template: '#single-image-template',
+    });
+
+    Vue.component('comments', {
+        template: '#comments-template',
+    });
+
+    Vue.component('comment-form', {
+        data: function() {
+            return {
+                comment: '',
+                commentUsername: '',
+            };
+        },
+        template: '#comment-form-template',
+        methods: {
+            saveComment: function(e) {
+                this.$parent.$parent.saveComment(
+                    this.comment,
+                    this.commentUsername,
+                    this.$parent.image.id,
+                );
+            },
+        },
     });
 
     var app = new Vue({
@@ -49,6 +78,13 @@
             deselect() {
                 this.selectedImage = undefined;
                 this.showModal = false;
+            },
+            saveComment(comment, commentUsername, imageId) {
+                axios
+                    .post('/comment', { comment: comment, user: commentUsername, id: imageId })
+                    .then(response => {
+                        console.log(response);
+                    });
             },
         },
     });

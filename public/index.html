@@ -27,14 +27,12 @@
         <div id="gallery-wrap">
             <div id="gallery">
                 <div class="image" v-for="image in images" @click="showModal = true; selectImage(image)">
-                    <single-image :path=image.image :title=image.title></single-image>
+                    <single-image :path=image.image :title=image.title :id=image.id></single-image>
                 </div>
             </div>
         </div>
 
-        <modal v-if="showModal" :image="selectedImage" @close="showModal = false">
-            <h3 slot="header">custom header</h3>
-        </modal>
+        <modal v-if="showModal" :image="selectedImage" @close="showModal = false"></modal>
     </div>
 
     <script id="single-image-template" type="x-template">
@@ -53,17 +51,27 @@
               <div class="modal-container">      
                 
                 <div class="modal-body">
-                        <img v-bind:src="image.image" />
-                </div>
-      
-                <div class="modal-title">
-                    {{ image.title }}
-                </div>
-
-                <div class="modal-description">
-                    {{ image.description }}
-                </div>
-
+                        <div class="modal-image">
+                            <img v-bind:src="image.image" />
+                        </div>
+                        <div class="modal-title">
+                            <h2>{{ image.title }}</h2>
+                        </div>
+                        <div class="modal-description">
+                                {{ image.description }}
+                            </div>
+                        <div class="modal-comments">
+                            <div class="comments-form">
+                                <comment-form></comment-form>
+                            </div>
+                            
+                            <div v-for="comment in comments">
+                                <!-- <comment name=></comment> -->
+                               <p>{{comment}}</p>
+                            </div>
+                            
+                        </div>
+                </div>                
 
                 <div class="modal-footer">
                   
@@ -77,6 +85,20 @@
           </div>
         </transition>
       </script>
+
+    <script id="comment-form-template" type="x-template">
+            <div class="comment-form">
+                    <form>                                           
+                        <input type="text" v-model="comment" name="Comment" placeholder="Comment">                                    
+                        <input type="text" v-model="commentUsername" name="Username" placeholder="Username">                                    
+                        <button type="button" v-on:click="saveComment">Submit</button>
+                    </form>
+            </div>
+    </script>
+
+    <script id="comments-template" type="x-template">
+                    <div>{{comment}}</div>
+    </script>
 
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
