@@ -18,7 +18,11 @@ body {
 }
 
 h1 {
-    color: #db3069;
+    color: #fff;
+}
+
+header {
+    background-color: #db3069;
 }
 
 #main {
@@ -45,9 +49,9 @@ h1 {
 .image {
     flex-grow: 1;
     width: 28%;
-    background-color: #f5f4f4;
+    background-color: #fff;
     cursor: pointer;
-    margin: 2% 1.5%;
+    margin: 1% 0.5%;
     width: 28%;
     border: 1.5px solid #c6d8ff;
     border-radius: 5px;
@@ -65,10 +69,11 @@ h1 {
 .image-file img {
     max-width: 100%;
     margin: 0 auto;
+    border-radius: 5px;
 }
 
 .image-title {
-    background-color: #f5f4f4;
+    background-color: #fff;
     position: relative;
     z-index: 1;
     letter-spacing: 1px;
@@ -102,8 +107,8 @@ h1 {
     transition: all 0.3s ease;
 }
 
-.modal-header h3 {
-    margin-top: 0;
+.modal-header {
+    height: 20px;
 }
 
 .modal-body {
@@ -114,6 +119,8 @@ h1 {
 
 .modal-default-button {
     float: right;
+    font-size: 16px;
+    padding: 2px;
 }
 
 .modal-comments {
@@ -158,4 +165,64 @@ h1 {
 
 .comment-author {
     font-size: 12px;
+}
+
+input.upload {
+    background-color: #c6d8ff;
+    padding: 5px 10px;
+    height: 40px;
+    font-weight: 200;
+    margin-bottom: 14px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: none;
+    border: 0;
+    border-radius: 5px;
+}
+
+input.upload:focus {
+    background-color: #71a9f7;
+    color: #fff;
+    border-color: #db3069;
+    outline: 0;
+    box-shadow: none;
+}
+
+button.upload {
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    padding: 10px 20px;
+    width: 50%;
+    margin: 5px auto;
+    background-color: #db3069;
+    color: #fff;
+}
+
+.upload {
+    display: block;
+    width: 100%;
+    margin: 5px 10px;
+}
+
+#upload-wrapper {
+    display: flex;
+    width: 80vh;
+    margin: 10px auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.comment-wrapper {
+    position: relative;
+    max-width: 70%;
+    height: auto;
+    margin: 20px auto;
+    padding: 5px;
+    background-color: #c6d8ff;
+    border-radius: 3px;
+    border: 2px solid #f5f4f4;
 }
