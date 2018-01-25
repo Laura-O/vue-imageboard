@@ -7,6 +7,13 @@
         },
         props: ['image'],
         template: '#modal-template',
+        watch: {
+            image: function(val) {
+                axios.get('/comments/' + this.image.id).then(resp => {
+                    this.comments = resp.data;
+                });
+            },
+        },
         mounted: function() {
             console.log('image when mounted: ', this.image);
             axios.get('/comments/' + this.image.id).then(resp => {
@@ -64,16 +71,35 @@
             },
             showModal: false,
             selectedImage: undefined,
+            selectedId: location.hash.slice(1),
+            currentPage: 1,
+            imagesPerPage: 6,
         },
         mounted: function() {
             if (window.location.hash) {
-                // let currentImage = this.getImage(window.location.hash.substring(1));
-                // this.selectImage(currentImage);
                 this.getImage(window.location.hash.substring(1));
             }
             axios.get('/db').then(function(resp) {
                 app.images = resp.data;
             });
+        },
+        computed: {
+            totalPages: function() {
+                return Math.ceil(this.images.length / this.imagesPerPage);
+            },
+            paginate: function() {
+                // catch empty array & gaps
+                if (!this.images || this.images.length != this.images.length) {
+                    return;
+                }
+                let index = this.currentPage * this.imagesPerPage - this.imagesPerPage;
+                return this.images.slice(index, index + this.imagesPerPage);
+            },
+        },
+        watch: {
+            selectedId: function(val) {
+                this.getImage(val);
+            },
         },
         methods: {
             chooseFile: function(e) {
@@ -112,6 +138,16 @@
                 this.selectedImage = undefined;
                 this.showModal = false;
             },
+            setPage: function(pageNumber) {
+                this.currentPage = pageNumber;
+            },
         },
+    });
+
+    window.addEventListener('hashchange', function() {
+        if (location.hash.slice(1)) {
+            app.selectedId = location.hash.slice(1);
+            console.log(app.selectedId);
+        }
     });
 })();

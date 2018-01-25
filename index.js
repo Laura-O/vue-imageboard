@@ -45,7 +45,7 @@ var uploader = multer({
 app.use(express.static('./public'));
 
 app.get('/db', (req, res) => {
-    const query = 'SELECT * FROM images';
+    const query = 'SELECT * FROM images ORDER by id DESC';
     db
         .query(query)
         .then(results => {
@@ -78,8 +78,31 @@ app.get('/image/:id', (req, res) => {
     db
         .query(query, [req.params.id])
         .then(results => {
-            results.rows[0].image = config.s3Url.concat(results.rows[0].image);
-            res.json(results.rows);
+            if (results.rows == 0) {
+                res.redirect('/db');
+            } else {
+                results.rows[0].image = config.s3Url.concat(results.rows[0].image);
+                res.json(results.rows);
+            }
+        })
+        .catch(err => {
+            console.error('query error', err.message, err.stack);
+        });
+});
+
+app.get('/pages/:page', function(req, res) {
+    let page = req.params.page || 1;
+    const query = `SELECT * FROM images ORDER BY id OFFSET ${page * 10 - 10} LIMIT 10`;
+
+    // console.log(query);
+    // res.send(query);
+    db
+        .query(query)
+        .then(results => {
+            for (var i = 0; i < results.rows.length; i++) {
+                results.rows[i].image = config.s3Url.concat(results.rows[i].image);
+            }
+            return res.json(results.rows);
         })
         .catch(err => {
             console.error('query error', err.message, err.stack);

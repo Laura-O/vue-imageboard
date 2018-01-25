@@ -32,10 +32,17 @@
 
         <div id="gallery-wrap">
             <div id="gallery">
-                <div class="image" v-for="image in images" @click="showModal = true; selectImage(image)">
+                <div class="image" v-for="image in paginate" @click="showModal = true; selectImage(image)">
                     <single-image :path=image.image :title=image.title :id=image.id></single-image>
                 </div>
             </div>
+
+            <ul class="pagination">
+                <li v-for="pageNumber in totalPages">
+                    <a v-bind:key="pageNumber" href="#" @click="setPage(pageNumber)">{{ pageNumber }}</a>
+                </li>
+            </ul>
+
         </div>
 
         <modal v-if="showModal" :image="selectedImage" @close="showModal = false"></modal>

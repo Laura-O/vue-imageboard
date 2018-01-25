@@ -226,3 +226,8 @@ button.upload {
     border-radius: 3px;
     border: 2px solid #f5f4f4;
 }
+
+.pagination li {
+    display: inline;
+    margin: 5px 5px;
+}
