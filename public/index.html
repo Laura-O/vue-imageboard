@@ -77,7 +77,7 @@
                             </div>
                         <div class="modal-comments">
                             <div class="comments-form">
-                                <comment-form></comment-form>
+                                <comment-form :id="image.id" :comments="comments"></comment-form>
                             </div>
                             
                             <div v-for="comment in comments">

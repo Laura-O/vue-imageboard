@@ -39,6 +39,7 @@
                 commentUsername: '',
             };
         },
+        props: ['id', 'comments'],
         template: '#comment-form-template',
         methods: {
             saveComment: function(e) {
@@ -46,11 +47,11 @@
                     .post('/comment', {
                         comment: this.comment,
                         user: this.commentUsername,
-                        id: this.$parent.image.id,
+                        id: this.id,
                     })
                     .then(response => {
                         if (response.data.success == true) {
-                            this.$parent.comments.unshift({
+                            this.comments.unshift({
                                 comment: response.data.comment,
                                 username: response.data.username,
                                 id: response.data.imageId,
