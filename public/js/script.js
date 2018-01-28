@@ -113,10 +113,16 @@
                 formData.append('file', this.formStuff.file);
                 formData.append('title', this.formStuff.title);
                 formData.append('description', this.formStuff.description);
-                formData.append('username', this.formStuff.username);
+                formData.append('username', this.formStuff.user);
+
+                this.formStuff.title = '';
+                this.formStuff.file = '';
+                this.formStuff.description = '';
+                this.formStuff.user = '';
 
                 axios.post('/upload-image', formData).then(response => {
                     if (response.data.success == true) {
+                        console.log(response);
                         app.images.unshift({
                             description: response.data.description,
                             image: response.data.filename,

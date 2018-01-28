@@ -189,13 +189,49 @@ input.upload:focus {
 }
 
 button.upload {
-    border-radius: 50px;
+    border-radius: 10px;
     letter-spacing: 0.5px;
     padding: 10px 20px;
     width: 50%;
     margin: 5px auto;
     background-color: #db3069;
     color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 1px transparent;
+    transition-duration: 0.3s;
+}
+
+button.upload:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+
+[type='file'] {
+    height: 0.1px;
+    width: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+#file-label {
+    background-color: #db3069;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    width: 50%;
+    letter-spacing: 0.5px;
+    border-radius: 10px;
+    box-shadow: 0 0 1px transparent;
+    transition-duration: 0.3s;
+}
+
+#file-label:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 }
 
 .upload {
