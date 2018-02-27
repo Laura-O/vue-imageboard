@@ -14,7 +14,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f5f4f4;
-    font-family: 'Rokkitt', serif;
+    font-family: 'Arvo', serif;
 }
 
 h1 {
@@ -119,7 +119,6 @@ header {
 
 .modal-default-button {
     float: right;
-    font-size: 16px;
     padding: 2px;
 }
 
